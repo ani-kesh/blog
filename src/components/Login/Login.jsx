@@ -2,6 +2,9 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { setItems,getItems } from "../../helpers/localStorage";
+import {Routes} from "../../constants/router"
+import {Link } from "react-router-dom";
 
 const CssTextField = withStyles({
   root: {
@@ -43,12 +46,44 @@ const useStyles = (theme) => ({
 export class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      username: "",
+      password: "",
+    };
   }
 
-  handleLogin = ()=>{
-      
-  }
+  handleUsername = (ev) => {
+    this.setState({
+      username: ev.target.value,
+    });
+  };
+
+  handlePassword = (ev) => {
+    this.setState({
+      password: ev.target.value,
+    });
+  };
+
+  handleLogin = () => {
+      const username = this.state.username.trim(); 
+      const password = this.state.password.trim(); 
+        if(username !== "" && password !== ""){
+            const users = getItems("users");
+            if(users != null){
+                const user = users.filter((el)=>{
+                    return el.username === username && el.password === password
+                });
+                // if(user.length > 0){
+                //     console.log(Routes.blog.path);
+                //     <Link to={Routes.blog.path}/>
+                // }
+                // else{
+                //     setItems("users",[{username,password}])
+                // }
+            }
+        }
+  };
+
   render() {
     const { classes } = this.props;
     return (
@@ -59,14 +94,19 @@ export class Login extends React.Component {
             label="Login"
             variant="outlined"
             id="custom-css-outlined-input"
+            onChange={this.handleUsername}
           />
           <CssTextField
             className={classes.margin + " " + classes.loginInput}
             label="Password"
             variant="outlined"
             id="custom-css-outlined-input"
+            type="password"
+            onChange={this.handlePassword}
           />
-          <Button variant="outlined" onClick={this.handleLogin}>Default</Button>
+          <Button variant="outlined" onClick={this.handleLogin}>
+            Default
+          </Button>
         </div>
       </>
     );
