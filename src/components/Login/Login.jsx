@@ -2,9 +2,9 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { setItems,getItems } from "../../helpers/localStorage";
-import {Routes} from "../../constants/router"
-import {Link } from "react-router-dom";
+import { setItems, getItems } from "../../helpers/localStorage";
+import { Redirect, Link, Route } from "react-router-dom";
+import { Routes } from "../../constants/router";
 
 const CssTextField = withStyles({
   root: {
@@ -49,6 +49,8 @@ export class Login extends React.Component {
     this.state = {
       username: "",
       password: "",
+      isLogin: false,
+      userId: "",
     };
   }
 
@@ -65,27 +67,45 @@ export class Login extends React.Component {
   };
 
   handleLogin = () => {
-      const username = this.state.username.trim(); 
-      const password = this.state.password.trim(); 
-        if(username !== "" && password !== ""){
-            const users = getItems("users");
-            if(users != null){
-                const user = users.filter((el)=>{
-                    return el.username === username && el.password === password
-                });
-                // if(user.length > 0){
-                //     console.log(Routes.blog.path);
-                //     <Link to={Routes.blog.path}/>
-                // }
-                // else{
-                //     setItems("users",[{username,password}])
-                // }
-            }
+    const username = this.state.username.trim();
+    const password = this.state.password.trim();
+    if (username !== "" && password !== "") {
+      const users = getItems("users");
+
+      if (users != null) {
+        const user = users.filter((el) => {
+          return el.username === username && el.password === password;
+        });
+        if (user.length === 0) {
+          setItems("users", [
+            ...users,
+            { id: users.length, username, password, isLogin: true },
+          ]);
+          this.setState({
+            userId: users.length,
+          });
         }
+        else
+        this.setState({
+          userId: user[0].id,
+        });
+      } else {
+        setItems("users", [{ id: 0, username, password, isLogin: true }]);
+        this.setState({
+          userId: 0,
+        });
+      }
+
+      this.setState({
+        isLogin: true,
+      });
+    } else this.setState({ isLogin: false });
   };
 
   render() {
     const { classes } = this.props;
+    if (this.state.isLogin)
+      return <Redirect to={Routes.blogPage(this.state.userId).path} />;
     return (
       <>
         <div className={classes.loginContainer}>

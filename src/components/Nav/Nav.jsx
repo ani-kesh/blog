@@ -65,7 +65,7 @@ export default function Nav() {
           >
             {Object.values(Routes).map((fn) => {
               const { path, text } = fn();
-              return path !== "*" ? (
+              return path !== "*" &&  !path.includes("/blog/")? (
                 path === "/login" ? (
                   <Tab
                     label={text}
