@@ -54,6 +54,12 @@ export class Login extends React.Component {
     };
   }
 
+  componentDidMount = ()=>{
+    this.setState({
+      isLogin: false,
+    });
+    setItems("isLogged", false);;
+  }
   handleUsername = (ev) => {
     this.setState({
       username: ev.target.value,
@@ -96,10 +102,14 @@ export class Login extends React.Component {
         });
       }
 
+      setItems("isLogged", true);
       this.setState({
         isLogin: true,
       });
-    } else this.setState({ isLogin: false });
+    } else {
+      this.setState({ isLogin: false });
+      setItems("isLogged", false);
+    }
   };
 
   render() {

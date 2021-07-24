@@ -53,8 +53,9 @@ export default function CommentCard() {
           }
           action={
             <div>
+              <Button>&#10003;</Button>
               <Button>&#9998;</Button>
-              <Button>&#9998;</Button>
+              <Button>&times;</Button>
             </div>
           }
           title="Shrimp and Chorizo Paella"
