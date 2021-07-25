@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import { Routes } from "../../constants/router";
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -30,13 +29,7 @@ function TabPanel(props) {
   );
 }
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = (theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
@@ -45,31 +38,32 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     right: theme.spacing(1),
   },
-}));
+});
 
-function isLogged() {
-  return Boolean(getItems("isLogged"));
-}
 
-export default function Nav() {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
-  const [loggedLabel, setLoggedLabel] = React.useState("Log In");
+export class Nav extends React.Component{
+  constructor(props){
+    super(props);
+    this.state ={
+      value:0,
+      isLogged:Boolean(getItems("isLogged"))
+    }
+  }
 
-  useEffect(() => {
-    isLogged() ? setLoggedLabel("Log Out") : setLoggedLabel("Log In");
-  });
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  handleChange = (event, newValue) => {
+    this.setState({value:event.target.value})
   };
 
-  return (
+  render(){
+    console.log(this.props)
+    const { classes } = this.props;
+      return (
     <Router>
       <div className={classes.root}>
         <AppBar position="static">
           <Tabs
-            value={value}
-            onChange={handleChange}
+            value={this.state.value}
+            onChange={this.handleChange}
             aria-label="simple tabs example"
           >
             {Object.values(Routes).map((fn) => {
@@ -77,7 +71,7 @@ export default function Nav() {
               return path !== "*" && !path.includes("/blog/") ? (
                 path === "/login" ? (
                   <Tab
-                    label={loggedLabel}
+                    label={text}
                     component={Link}
                     to={path}
                     key={Math.random()}
@@ -117,5 +111,9 @@ export default function Nav() {
         </TabPanel>
       </div>
     </Router>
-  );
+  )
+  }
 }
+
+
+export default withStyles(useStyles)(Nav);
