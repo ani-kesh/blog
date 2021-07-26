@@ -6,7 +6,10 @@ import Input from "@material-ui/core/Input";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import { getCurrentDate } from "../../helpers/dates";
+import {
+  getCurrentDateStr,
+  getCurrentDateInMilliseconds,
+} from "../../helpers/dates";
 
 const useStyles = (theme) => ({
   loginContainer: {
@@ -31,19 +34,18 @@ export class AddComment extends React.Component {
       isLogged: Boolean(getItems("isLogged")),
       comment: "",
       title: "",
+      createdOnStr: "",
       createdOn: "",
-      status: "new"
+      status: "new",
     };
   }
 
   componentDidMount() {
-    const userId = 0;
-    if (userId != null) {
-      const users = getItems("users");
-      const user = users.filter((el) => {
-        return userId === el.id;
-      });
-    }
+    const userId = getItems("userId");
+    if(userId !== "null")
+    this.setState({
+      userId:userId,
+    })
   }
 
   handleAddComment = () => {
@@ -53,21 +55,25 @@ export class AddComment extends React.Component {
         ? setItems("comments", [
             ...comments,
             {
-              userId: "",
+              id:comments.length + Math.random(),
+              userId: this.state.userId,
               comment: this.state.comment,
               title: this.state.title,
-              createdOn: getCurrentDate(),
+              createdOnStr: getCurrentDateStr(),
+              createdOn: getCurrentDateInMilliseconds(),
             },
           ])
         : setItems("comments", [
             {
-              userId: "",
+              id:0 + Math.random(),
+              userId: this.state.userId,
               comment: this.state.comment,
               title: this.state.title,
-              createdOn: getCurrentDate(),
+              createdOnStr: getCurrentDateStr(),
+              createdOn: getCurrentDateInMilliseconds(),
             },
           ]);
-          this.setState({status:"sent"});
+      this.setState({ status: "sent" });
     }
   };
   handleComment = (ev) => {
@@ -79,8 +85,8 @@ export class AddComment extends React.Component {
   };
   render() {
     const { classes } = this.props;
-    if(this.state.status === "sent")
-    return <Redirect to={Routes.blog().path} />;
+    if (this.state.status === "sent")
+      return <Redirect to={Routes.blog().path} />;
     if (this.state.isLogged)
       return (
         <>

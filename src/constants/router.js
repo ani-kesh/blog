@@ -1,25 +1,21 @@
 import Login from "../components/Login/Login";
 import Blog from "../components/Blog/Blog";
-import NotFound from "../components/NotFound/NotFound";
 import BlogPage from "../components/BlogPage/BlogPage";
-import AddComment from "../components/AddComment/AddComment"
+import NotFound from "../components/NotFound/NotFound";
+import AddComment from "../components/AddComment/AddComment";
 
-export const Routes = { 
-  blogPage: (id) => ({
-    path: `/blog/:${id}`,
-    text: "Blog Page",
-    component: BlogPage,
-  }),
-  blog: () => ({ path: "/blog", text: "Blog", component: Blog }),
+export const Routes = {
+  blog: () => ({ path: `/`, text: "Blog", component: Blog }),
+  blog_page:(id,userId)=>({path: `/blog/:${id}&:${userId}`, text: "Blog Page", component: BlogPage }),
   login: () => ({
     path: `/login`,
-    text: "Login",
+    text: "Log in",
     component: Login,
-  }), 
-  addComment:(id) => ({
-    path: `/comment/:${id}`,
+  }),
+  addComment: () => ({
+    path: `/comment`,
     text: "Add Comment",
     component: AddComment,
   }),
-  error:()=>({path:"*",text: "Error", component: NotFound })
+  error: () => ({ path: "*", text: "Error", component: NotFound }),
 };

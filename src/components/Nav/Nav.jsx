@@ -51,12 +51,12 @@ export class Nav extends React.Component{
   }
 
   handleChange = (event, newValue) => {
-    this.setState({value:event.target.value})
+    this.setState({value:event.target.value, isLogged:Boolean(getItems("isLogged"))})
   };
 
   render(){
-    console.log(this.props)
-    const { classes } = this.props;
+    console.log(this.state.isLogged)
+    const { classes} = this.props;
       return (
     <Router>
       <div className={classes.root}>

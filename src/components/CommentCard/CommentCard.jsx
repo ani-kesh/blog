@@ -6,8 +6,12 @@ import CardContent from "@material-ui/core/CardContent";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
+import { getItems, setItems } from "../../helpers/localStorage";
+import CardActions from "@material-ui/core/CardActions";
+import { Link ,Redirect ,Route} from "react-router-dom";
+import { Routes } from "../../constants/router";
 import Button from "@material-ui/core/Button";
-import { getItems } from "../../helpers/localStorage";
+import CardEdit from "../CardEdit/CardEdit";
 
 const useStyles = (theme) => ({
   commentContainer: {
@@ -20,6 +24,7 @@ const useStyles = (theme) => ({
     marginLeft: "100px",
     marginTop: "10px",
     maxWidth: 800,
+    width: 800,
   },
   media: {
     height: 0,
@@ -38,49 +43,115 @@ const useStyles = (theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
+  footer: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "flex-end",
+  },
 });
 
 export class CommentCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLogged: Boolean(getItems("isLogged")),
       userId: "",
-      isLogged:Boolean(getItems("isLogged"))
+      userName: "",
+      isEdit: false,
+      isDeleted:false
     };
   }
 
-  render() {
-    const { classes } = this.props;
-    return (
-      <div className={classes.commentContainer}>
-        <Card className={classes.root}>
-          <CardHeader
-            avatar={
-              <Avatar aria-label="recipe" className={classes.avatar}>
-                R
-              </Avatar>
-            }
-            action={
-              <div>
-                <Button>&#10003;</Button>
-                <Button>&#9998;</Button>
-                <Button>&times;</Button>
-              </div>
-            }
-            title="Shrimp and Chorizo Paella"
-            subheader="September 14, 2016"
-          />
-          <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
-              This impressive paella is a perfect party dish and a fun meal to
-              cook together with your guests. Add 1 cup of frozen peas along
-              with the mussels, if you like.
-            </Typography>
-          </CardContent>
-        </Card>
-      </div>
-    );
+  componentDidMount() {
+    const userId = getItems("userId");
+    const users = getItems("users");
+    if (userId !== "null") {
+      this.setState({
+        userId: userId,
+      });
+      const user = users.filter((el) => {
+        return el.id === this.props.userId;
+      });
+
+      if (this.props.type !== "edit")
+        this.setState({ userName: user[0].username });
+    }
   }
+
+  handleEdit = () => {
+    this.setState({ isEdit: true });
+  };
+
+  handleDelete =()=>{
+    const comments = getItems("comments");
+
+    const newComments = comments.filter((el)=>{return el.id !== this.props.id});
+
+    setItems("comments",newComments);
+    this.setState({isDeleted:true})
+  };
+
+  render() {
+    if(this.state.isDeleted)
+    return <Route render={()=> <Redirect to={Routes.blog().path}/>}/>
+    const { classes, date, title, comment, id, type,userId } = this.props;
+    const [avatarName] = this.state.userName;
+    if (!this.state.isEdit){      
+      return (
+        <div className={classes.commentContainer}>
+          <Card className={classes.root}>
+            {type === "edit" && this.state.userId === userId? (
+              <CardHeader
+                avatar={
+                  <Avatar aria-label="recipe" className={classes.avatar}>
+                    {avatarName}
+                  </Avatar>
+                }
+                action={
+                  <div>
+                    <Button onClick={this.handleEdit}>&#9998;</Button>
+                    <Button onClick={this.handleDelete}>&times;</Button>
+                  </div>
+                }
+                title={title}
+                subheader={date}
+              />
+            ) : (
+              <CardHeader
+                avatar={
+                  <Avatar aria-label="recipe" className={classes.avatar}>
+                    {avatarName}
+                  </Avatar>
+                }
+                title={title}
+                subheader={date}
+              />
+            )}
+            <CardContent>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {comment}
+              </Typography>
+            </CardContent>
+            <CardActions disableSpacing>
+              <div className={classes.footer}>
+                {type === "edit" ? (
+                  ""
+                ) : (
+                  <Link to={Routes.blog_page(id, this.state.userId).path}>
+                    Learn more
+                  </Link>
+                )}
+              </div>
+            </CardActions>
+          </Card>
+        </div>
+      );
+    }
+    
+    return <CardEdit title={title} comment={comment} userId={this.state.userId} commentId={id}/>;
+  
+  }
+  
 }
 
 export default withStyles(useStyles)(CommentCard);

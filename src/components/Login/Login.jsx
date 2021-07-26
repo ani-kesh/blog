@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { setItems, getItems } from "../../helpers/localStorage";
-import { Redirect, Link, Route } from "react-router-dom";
+import { Redirect, } from "react-router-dom";
 import { Routes } from "../../constants/router";
 
 const CssTextField = withStyles({
@@ -54,12 +54,13 @@ export class Login extends React.Component {
     };
   }
 
-  componentDidMount = ()=>{
+  componentDidMount = () => {
     this.setState({
       isLogin: false,
     });
-    setItems("isLogged", false);;
-  }
+    setItems("isLogged", false);
+    setItems("userId", null);
+  };
   handleUsername = (ev) => {
     this.setState({
       username: ev.target.value,
@@ -87,16 +88,20 @@ export class Login extends React.Component {
             ...users,
             { id: users.length, username, password, isLogin: true },
           ]);
+          setItems("userId", users.length);
           this.setState({
             userId: users.length,
           });
+        } else{
+          this.setState({
+            userId: user[0].id,
+          });
+          setItems("userId", user[0].id);
         }
-        else
-        this.setState({
-          userId: user[0].id,
-        });
+
       } else {
         setItems("users", [{ id: 0, username, password, isLogin: true }]);
+        setItems("userId", 0);
         this.setState({
           userId: 0,
         });
@@ -109,13 +114,15 @@ export class Login extends React.Component {
     } else {
       this.setState({ isLogin: false });
       setItems("isLogged", false);
+      setItems("userId", null);
     }
   };
 
   render() {
     const { classes } = this.props;
-    if (this.state.isLogin)
-      return <Redirect to={Routes.blogPage(this.state.userId).path} />;
+
+    if (this.state.isLogin) return <Redirect to={Routes.addComment().path} />;
+
     return (
       <>
         <div className={classes.loginContainer}>
@@ -135,7 +142,7 @@ export class Login extends React.Component {
             onChange={this.handlePassword}
           />
           <Button variant="outlined" onClick={this.handleLogin}>
-            Default
+            Log In
           </Button>
         </div>
       </>
