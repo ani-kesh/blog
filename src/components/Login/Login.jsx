@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { setItems, getItems } from "../../helpers/localStorage";
-import { Redirect, } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { Routes } from "../../constants/router";
 
 const CssTextField = withStyles({
@@ -92,13 +92,12 @@ export class Login extends React.Component {
           this.setState({
             userId: users.length,
           });
-        } else{
+        } else {
           this.setState({
             userId: user[0].id,
           });
           setItems("userId", user[0].id);
         }
-
       } else {
         setItems("users", [{ id: 0, username, password, isLogin: true }]);
         setItems("userId", 0);
@@ -121,7 +120,10 @@ export class Login extends React.Component {
   render() {
     const { classes } = this.props;
 
-    if (this.state.isLogin) return <Redirect to={Routes.addComment().path} />;
+    if (this.state.isLogin) {
+      this.props.handleLogin(this.state.isLogin);
+      return <Redirect to={Routes.addComment().path} />;
+    }
 
     return (
       <>
@@ -141,7 +143,12 @@ export class Login extends React.Component {
             type="password"
             onChange={this.handlePassword}
           />
-          <Button variant="outlined" onClick={this.handleLogin}>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              this.handleLogin();
+            }}
+          >
             Log In
           </Button>
         </div>
