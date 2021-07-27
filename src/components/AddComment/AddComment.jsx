@@ -25,6 +25,11 @@ const useStyles = (theme) => ({
     width: "800px",
     margin: "30px 10px",
   },
+  button:{
+    backgroundColor: "#546e7a",
+    color:"white",
+    padding:"10px 25px",
+  }
 });
 
 export class AddComment extends React.Component {
@@ -107,7 +112,7 @@ export class AddComment extends React.Component {
               placeholder="Comment"
               className={classes.margin + " " + classes.loginInput}
             />
-            <Button variant="outlined" onClick={this.handleAddComment}>
+            <Button variant="contained" onClick={this.handleAddComment} className={classes.button}>
               Add
             </Button>
           </div>
