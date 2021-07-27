@@ -5,6 +5,9 @@ import Button from "@material-ui/core/Button";
 import { setItems, getItems } from "../../helpers/localStorage";
 import { Redirect } from "react-router-dom";
 import { Routes } from "../../constants/router";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+
 
 const useStyles = (theme) => ({
   loginContainer: {
@@ -19,6 +22,14 @@ const useStyles = (theme) => ({
     width: "400px",
     margin: "10px",
   },
+  errorMessage: {
+    color: "red",
+  },
+  button:{
+    backgroundColor: "#546e7a",
+    color:"white",
+    padding:"10px 25px",
+  }
 });
 
 export class Login extends React.Component {
@@ -29,6 +40,7 @@ export class Login extends React.Component {
       password: "",
       isLogin: false,
       userId: "",
+      isValidLogin: true,
     };
   }
 
@@ -87,16 +99,16 @@ export class Login extends React.Component {
       setItems("isLogged", true);
       this.setState({
         isLogin: true,
+        isValidLogin: true,
       });
     } else {
-      this.setState({ isLogin: false });
+      this.setState({ isLogin: false, isValidLogin: false });
       setItems("isLogged", false);
       setItems("userId", null);
     }
   };
 
   render() {
-    console.log(this.props)
     const { classes } = this.props;
 
     if (this.state.isLogin) {
@@ -106,6 +118,15 @@ export class Login extends React.Component {
 
     return (
       <div className={classes.loginContainer}>
+        {this.state.isValidLogin ? (
+          <></>
+        ) : (
+          <Typography component="div">
+            <Box textAlign="center" m={1} className={classes.errorMessage}>
+              Please fill username and password.
+            </Box>
+          </Typography>
+        )}
         <TextField
           className={classes.margin + " " + classes.loginInput}
           label="Login"
@@ -121,10 +142,11 @@ export class Login extends React.Component {
           onChange={this.handlePassword}
         />
         <Button
-          variant="outlined"
+          variant="contained"
           onClick={() => {
             this.handleLogin();
           }}
+          className={classes.button}
         >
           Log In
         </Button>

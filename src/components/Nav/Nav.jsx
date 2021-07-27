@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Link,
-  Route,
-  Switch,
-} from "react-router-dom";
+import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import { Routes } from "../../constants/router";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -40,6 +35,9 @@ const useStyles = (theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
   },
+  nav: {
+    backgroundColor: "#546e7a",
+  },
   login: {
     position: "absolute",
     right: theme.spacing(1),
@@ -56,7 +54,6 @@ export class Nav extends React.Component {
   }
 
   handleChange = (event, newValue) => {
-    console.log(event.target)
     this.setState({
       value: event.target.value,
     });
@@ -82,13 +79,13 @@ export class Nav extends React.Component {
     return (
       <Router>
         <div className={classes.root}>
-          <AppBar position="static">
+          <AppBar position="static" className={classes.nav}>         
             <Tabs
               value={this.state.value}
               onChange={this.handleChange}
               aria-label="simple tabs example"
             >
-              {Object.values(Routes).map((fn,ind) => {
+              {Object.values(Routes).map((fn, ind) => {
                 const { path, text } = fn();
                 return path !== "*" && !path.includes("/blog/") ? (
                   path === "/login" ? (
@@ -113,20 +110,20 @@ export class Nav extends React.Component {
                     />
                   )
                 ) : (
-                  <label key={Math.random()} index={ind}  value={ind}/>
+                  <label key={Math.random()} index={ind} value={ind} />
                 );
               })}
             </Tabs>
           </AppBar>
           <TabPanel>
             <Switch>
-              {Object.values(Routes).map((fn,ind) => {
+              {Object.values(Routes).map((fn, ind) => {
                 const { path, component } = fn();
 
                 return path.includes("login") ? (
                   <Route
                     key={Math.random()}
-                    path={path}  
+                    path={path}
                     render={() => <Login handleLogin={this.handleLogin} />}
                   />
                 ) : (

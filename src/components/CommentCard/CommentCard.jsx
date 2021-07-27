@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import { getItems, setItems } from "../../helpers/localStorage";
 import CardActions from "@material-ui/core/CardActions";
-import { Link ,Redirect ,Route} from "react-router-dom";
+import { Link, Redirect, Route } from "react-router-dom";
 import { Routes } from "../../constants/router";
 import Button from "@material-ui/core/Button";
 import CardEdit from "../CardEdit/CardEdit";
@@ -48,6 +48,9 @@ const useStyles = (theme) => ({
     display: "flex",
     justifyContent: "flex-end",
   },
+  button:{
+    fontSize:"25px",
+  }
 });
 
 export class CommentCard extends React.Component {
@@ -58,7 +61,7 @@ export class CommentCard extends React.Component {
       userId: "",
       userName: "",
       isEdit: false,
-      isDeleted:false
+      isDeleted: false,
     };
   }
 
@@ -82,25 +85,27 @@ export class CommentCard extends React.Component {
     this.setState({ isEdit: true });
   };
 
-  handleDelete =()=>{
+  handleDelete = () => {
     const comments = getItems("comments");
 
-    const newComments = comments.filter((el)=>{return el.id !== this.props.id});
+    const newComments = comments.filter((el) => {
+      return el.id !== this.props.id;
+    });
 
-    setItems("comments",newComments);
-    this.setState({isDeleted:true})
+    setItems("comments", newComments);
+    this.setState({ isDeleted: true });
   };
 
   render() {
-    if(this.state.isDeleted)
-    return <Route render={()=> <Redirect to={Routes.blog().path}/>}/>
-    const { classes, date, title, comment, id, type,userId } = this.props;
+    if (this.state.isDeleted)
+      return <Route render={() => <Redirect to={Routes.blog().path} />} />;
+    const { classes, date, title, comment, id, type, userId } = this.props;
     const [avatarName] = this.state.userName;
-    if (!this.state.isEdit){      
+    if (!this.state.isEdit) {
       return (
         <div className={classes.commentContainer}>
           <Card className={classes.root}>
-            {type === "edit" && this.state.userId === userId? (
+            {type === "edit" && this.state.userId === userId ? (
               <CardHeader
                 avatar={
                   <Avatar aria-label="recipe" className={classes.avatar}>
@@ -109,8 +114,8 @@ export class CommentCard extends React.Component {
                 }
                 action={
                   <div>
-                    <Button onClick={this.handleEdit}>&#9998;</Button>
-                    <Button onClick={this.handleDelete}>&times;</Button>
+                    <Button onClick={this.handleEdit} className={classes.button}>&#9998;</Button>
+                    <Button onClick={this.handleDelete} className={classes.button}>&times;</Button>
                   </div>
                 }
                 title={title}
@@ -147,11 +152,16 @@ export class CommentCard extends React.Component {
         </div>
       );
     }
-    
-    return <CardEdit title={title} comment={comment} userId={this.state.userId} commentId={id}/>;
-  
+
+    return (
+      <CardEdit
+        title={title}
+        comment={comment}
+        userId={this.state.userId}
+        commentId={id}
+      />
+    );
   }
-  
 }
 
 export default withStyles(useStyles)(CommentCard);

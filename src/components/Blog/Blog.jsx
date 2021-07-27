@@ -9,20 +9,34 @@ export default class Blog extends React.Component {
     super(props);
     this.state = {
       userId: "",
-      isLogged:Boolean(getItems("isLogged")),
-      comments:getItems("comments") !== null?getItems("comments").sort((a,b)=>b.createdOn-a.createdOn):[],
+      isLogged: Boolean(getItems("isLogged")),
+      comments:
+        getItems("comments") !== null
+          ? getItems("comments").sort((a, b) => b.createdOn - a.createdOn)
+          : [],
     };
   }
 
-  render(){
-    if(this.state.isLogged){      
-    return(
-      <>
-      {this.state.comments.map((el)=>{
-         return <CommentCard key={Math.random()} date={el.createdOnStr} title={el.title} comment={el.comment} userId={el.userId} id={el.id}/>
-      })}
-      </>
-    ) 
+  render() {
+    if (this.state.isLogged) {
+      if (this.state.comments.length > 0)
+        return (
+          <>
+            {this.state.comments.map((el) => {
+              return (
+                <CommentCard
+                  key={Math.random()}
+                  date={el.createdOnStr}
+                  title={el.title}
+                  comment={el.comment}
+                  userId={el.userId}
+                  id={el.id}
+                />
+              );
+            })}
+          </>
+        );
+      return <Redirect to={Routes.addComment().path} />;
     }
     return <Redirect to={Routes.login(this.state.userId).path} />;
   }
