@@ -6,28 +6,6 @@ import { setItems, getItems } from "../../helpers/localStorage";
 import { Redirect } from "react-router-dom";
 import { Routes } from "../../constants/router";
 
-const CssTextField = withStyles({
-  root: {
-    "& label.Mui-focused": {
-      color: "green",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "green",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "black",
-      },
-      "&:hover fieldset": {
-        borderColor: "black",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "green",
-      },
-    },
-  },
-})(TextField);
-
 const useStyles = (theme) => ({
   loginContainer: {
     display: "flex",
@@ -118,41 +96,39 @@ export class Login extends React.Component {
   };
 
   render() {
+    console.log(this.props)
     const { classes } = this.props;
 
     if (this.state.isLogin) {
       this.props.handleLogin(this.state.isLogin);
-      return <Redirect to={Routes.addComment().path} />;
+      return <Redirect to={Routes.blog().path} />;
     }
 
     return (
-      <>
-        <div className={classes.loginContainer}>
-          <CssTextField
-            className={classes.margin + " " + classes.loginInput}
-            label="Login"
-            variant="outlined"
-            id="custom-css-outlined-input"
-            onChange={this.handleUsername}
-          />
-          <CssTextField
-            className={classes.margin + " " + classes.loginInput}
-            label="Password"
-            variant="outlined"
-            id="custom-css-outlined-input"
-            type="password"
-            onChange={this.handlePassword}
-          />
-          <Button
-            variant="outlined"
-            onClick={() => {
-              this.handleLogin();
-            }}
-          >
-            Log In
-          </Button>
-        </div>
-      </>
+      <div className={classes.loginContainer}>
+        <TextField
+          className={classes.margin + " " + classes.loginInput}
+          label="Login"
+          type="text"
+          variant="outlined"
+          onChange={this.handleUsername}
+        />
+        <TextField
+          className={classes.margin + " " + classes.loginInput}
+          label="Password"
+          type="password"
+          variant="outlined"
+          onChange={this.handlePassword}
+        />
+        <Button
+          variant="outlined"
+          onClick={() => {
+            this.handleLogin();
+          }}
+        >
+          Log In
+        </Button>
+      </div>
     );
   }
 }

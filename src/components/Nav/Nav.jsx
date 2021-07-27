@@ -56,6 +56,7 @@ export class Nav extends React.Component {
   }
 
   handleChange = (event, newValue) => {
+    console.log(event.target)
     this.setState({
       value: event.target.value,
     });
@@ -99,6 +100,7 @@ export class Nav extends React.Component {
                       index={ind}
                       className={classes.login}
                       onClick={this.handleLogout}
+                      value={ind}
                     />
                   ) : (
                     <Tab
@@ -107,23 +109,24 @@ export class Nav extends React.Component {
                       to={path}
                       key={Math.random()}
                       index={ind}
+                      value={ind}
                     />
                   )
                 ) : (
-                  <label key={Math.random()} index={ind} />
+                  <label key={Math.random()} index={ind}  value={ind}/>
                 );
               })}
             </Tabs>
           </AppBar>
           <TabPanel>
             <Switch>
-              {Object.values(Routes).map((fn) => {
+              {Object.values(Routes).map((fn,ind) => {
                 const { path, component } = fn();
 
                 return path.includes("login") ? (
                   <Route
                     key={Math.random()}
-                    path={path}
+                    path={path}  
                     render={() => <Login handleLogin={this.handleLogin} />}
                   />
                 ) : (

@@ -6,6 +6,7 @@ import Input from "@material-ui/core/Input";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+
 import {
   getCurrentDateStr,
   getCurrentDateInMilliseconds,
@@ -55,7 +56,7 @@ export class AddComment extends React.Component {
         ? setItems("comments", [
             ...comments,
             {
-              id:comments.length + Math.random(),
+              id:comments.length + Math.floor(Math.random() * 1000),
               userId: this.state.userId,
               comment: this.state.comment,
               title: this.state.title,
@@ -65,7 +66,7 @@ export class AddComment extends React.Component {
           ])
         : setItems("comments", [
             {
-              id:0 + Math.random(),
+              id:Math.floor(Math.random() * 1000),
               userId: this.state.userId,
               comment: this.state.comment,
               title: this.state.title,
