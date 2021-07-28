@@ -6,7 +6,7 @@ import AddComment from "../components/AddComment/AddComment";
 
 export const Routes = {
   blog: () => ({ path: `/`, text: "Blog", component: Blog }),
-  blog_page:(id,userId)=>({path: `/blog/:${id}&:${userId}`, text: "Blog Page", component: BlogPage }),
+  blog_page:(id,userId)=>({path: `/blog/:${id}/:${userId}`, text: "Blog Page", component: BlogPage }),
   login: () => ({
     path: `/login`,
     text: "Log in",

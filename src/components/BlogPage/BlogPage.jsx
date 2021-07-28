@@ -14,7 +14,9 @@ export default class BlogPage extends React.Component {
 
   componentDidMount() {
     const pathname = this.props.location.pathname;
-    const parameters = pathname.replace("/blog/:", "").split("&:");
+    console.log(this.props)
+    console.log(pathname)
+    const parameters = pathname.replace("/blog/:", "").split("/:");
     const [commentId, userId] = [...parameters];
 
     if (commentId !== null && userId !== "null") {
