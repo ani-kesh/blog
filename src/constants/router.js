@@ -6,8 +6,8 @@ import AddComment from "../components/AddComment/AddComment";
 
 export const Routes = {
   blog: () => ({ path: `/`, text: "Blog", component: Blog }),
-  blog_page: (id, userId) => ({
-    path: `/blog/:${id}/:${userId}`,
+  blog_page: (id=":blogId") => ({
+    path: `/blog/${id}`,
     text: "Blog Page",
     component: BlogPage,
   }),

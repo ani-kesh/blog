@@ -61,7 +61,7 @@ export class AddComment extends React.Component {
         ? setItems("comments", [
             ...comments,
             {
-              id:comments.length + Math.floor(Math.random() * 1000),
+              id:`c_${comments.length}${Math.floor(Math.random() * 100000)}`,
               userId: this.state.userId,
               comment: this.state.comment,
               title: this.state.title,
@@ -71,7 +71,7 @@ export class AddComment extends React.Component {
           ])
         : setItems("comments", [
             {
-              id:Math.floor(Math.random() * 1000),
+              id:`c_${comments.length}${Math.floor(Math.random() * 100000)}`,
               userId: this.state.userId,
               comment: this.state.comment,
               title: this.state.title,

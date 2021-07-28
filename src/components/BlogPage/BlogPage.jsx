@@ -13,17 +13,17 @@ export default class BlogPage extends React.Component {
   }
 
   componentDidMount() {
-    const pathname = this.props.location.pathname;
-    const parameters = pathname.replace("/blog/:", "").split("/:");
-    const [commentId, userId] = [...parameters];
-
-    if (commentId !== null && userId !== "null") {
-      const comments = getItems("comments");
-      const comment = comments.filter((el) => {
-        return el.id === Number(commentId);
-      });
-      this.setState({ id: commentId, userId: userId, comment: comment[0] });
-    }
+      const commentId = this.props.match.params.blogId;
+    
+      if (commentId !== null) {
+        const comments = getItems("comments");
+        const comment = comments.filter((el) => {
+          return el.id === commentId;
+        });
+        this.setState({ ...comment, id: commentId, comment: comment[0] });
+      }
+    
+ 
   }
 
   render() {

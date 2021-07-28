@@ -142,7 +142,7 @@ export class CommentCard extends React.Component {
                 {type === "edit" ? (
                   ""
                 ) : (
-                  <Link to={Routes.blog_page(id, this.state.userId).path}>
+                  <Link to={Routes.blog_page(id).path}>
                     Learn more
                   </Link>
                 )}
