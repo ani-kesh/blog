@@ -12,6 +12,7 @@ import { Link, Redirect, Route } from "react-router-dom";
 import { Routes } from "../../constants/router";
 import Button from "@material-ui/core/Button";
 import CardEdit from "../CardEdit/CardEdit";
+import PropTypes from "prop-types";
 
 const useStyles = (theme) => ({
   commentContainer: {
@@ -48,9 +49,9 @@ const useStyles = (theme) => ({
     display: "flex",
     justifyContent: "flex-end",
   },
-  button:{
-    fontSize:"25px",
-  }
+  button: {
+    fontSize: "25px",
+  },
 });
 
 export class CommentCard extends React.Component {
@@ -114,8 +115,18 @@ export class CommentCard extends React.Component {
                 }
                 action={
                   <div>
-                    <Button onClick={this.handleEdit} className={classes.button}>&#9998;</Button>
-                    <Button onClick={this.handleDelete} className={classes.button}>&times;</Button>
+                    <Button
+                      onClick={this.handleEdit}
+                      className={classes.button}
+                    >
+                      &#9998;
+                    </Button>
+                    <Button
+                      onClick={this.handleDelete}
+                      className={classes.button}
+                    >
+                      &times;
+                    </Button>
                   </div>
                 }
                 title={title}
@@ -142,9 +153,7 @@ export class CommentCard extends React.Component {
                 {type === "edit" ? (
                   ""
                 ) : (
-                  <Link to={Routes.blog_page(id).path}>
-                    Learn more
-                  </Link>
+                  <Link to={Routes.blog_page(id).path}>Learn more</Link>
                 )}
               </div>
             </CardActions>
@@ -163,5 +172,15 @@ export class CommentCard extends React.Component {
     );
   }
 }
+
+CommentCard.protoTypes = {
+  classes: PropTypes.object.isRequired,
+  date: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  comment: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
+};
 
 export default withStyles(useStyles)(CommentCard);

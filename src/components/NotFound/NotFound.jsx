@@ -1,12 +1,13 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import SentimentVeryDissatisfiedIcon from "@material-ui/icons/SentimentVeryDissatisfied";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles({
   root: {
     minWidth: 500,
     maxWidth: 700,
-    display:"flex",
+    display: "flex",
     justifyContent: "center",
     flexWrap: "wrap",
   },
@@ -27,13 +28,13 @@ const useStyles = makeStyles({
     justifyContent: "center",
     flexWrap: "wrap",
     backgroundColor: "#546e7a",
-    padding:"30px 0",
+    padding: "30px 0",
   },
   icon: {
     width: "400px",
     height: "400px",
     transform: "rotateX(3.142rad)",
-    color:"white"
+    color: "white",
   },
   errorTitle: {
     width: "100%",
@@ -41,7 +42,7 @@ const useStyles = makeStyles({
     textAlign: "center",
     fontFamily: "Arial Black",
     letterSpacing: -"1px",
-    color:"white"
+    color: "white",
   },
 });
 
@@ -51,7 +52,11 @@ export default function NotFound() {
   return (
     <div className={classes.errorContainer}>
       <div className={classes.errorTitle}>Error</div>
-        <SentimentVeryDissatisfiedIcon className={classes.icon} />
+      <SentimentVeryDissatisfiedIcon className={classes.icon} />
     </div>
   );
 }
+
+NotFound.protoTypes = {
+  classes: PropTypes.object.isRequired,
+};

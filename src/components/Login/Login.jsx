@@ -7,7 +7,7 @@ import { Redirect } from "react-router-dom";
 import { Routes } from "../../constants/router";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-
+import PropTypes from "prop-types";
 
 const useStyles = (theme) => ({
   loginContainer: {
@@ -25,11 +25,11 @@ const useStyles = (theme) => ({
   errorMessage: {
     color: "red",
   },
-  button:{
+  button: {
     backgroundColor: "#546e7a",
-    color:"white",
-    padding:"10px 25px",
-  }
+    color: "white",
+    padding: "10px 25px",
+  },
 });
 
 export class Login extends React.Component {
@@ -154,5 +154,10 @@ export class Login extends React.Component {
     );
   }
 }
+
+Login.protoTypes = {
+  classes: PropTypes.object.isRequired,
+  handleLogin: PropTypes.func.isRequired,
+};
 
 export default withStyles(useStyles)(Login);

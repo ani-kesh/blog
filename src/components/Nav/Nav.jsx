@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { getItems } from "../../helpers/localStorage";
 import Login from "../Login/Login";
+import PropTypes from "prop-types";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -79,7 +80,7 @@ export class Nav extends React.Component {
     return (
       <Router>
         <div className={classes.root}>
-          <AppBar position="static" className={classes.nav}>         
+          <AppBar position="static" className={classes.nav}>
             <Tabs
               value={this.state.value}
               onChange={this.handleChange}
@@ -142,5 +143,9 @@ export class Nav extends React.Component {
     );
   }
 }
+
+Nav.protoTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 export default withStyles(useStyles)(Nav);

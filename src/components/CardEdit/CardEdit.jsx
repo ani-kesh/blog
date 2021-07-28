@@ -8,12 +8,13 @@ import Input from "@material-ui/core/Input";
 import { getItems, setItems } from "../../helpers/localStorage";
 import { Redirect, Route } from "react-router-dom";
 import { Routes } from "../../constants/router";
+import PropTypes from "prop-types";
 
 const useStyles = {
   root: {
     maxWidth: 800,
     width: 800,
-    padding:"10px",
+    padding: "10px",
   },
   bullet: {
     display: "inline-block",
@@ -41,13 +42,13 @@ const useStyles = {
     display: "flex",
     justifyContent: "flex-end",
   },
-  button:{
-    fontSize:"25px",
+  button: {
+    fontSize: "25px",
   },
-  label:{
-    fontSize:"30px",
-    color:"#546e7a"
-  }
+  label: {
+    fontSize: "30px",
+    color: "#546e7a",
+  },
 };
 
 export class CardEdit extends React.Component {
@@ -84,8 +85,7 @@ export class CardEdit extends React.Component {
       const comments = getItems("comments");
       if (comments !== null) {
         const updatedComments = comments.map((el) => {
-          return el.id === Number(this.props.commentId) &&
-            el.userId === Number(this.props.userId)
+          return el.id === this.props.commentId 
             ? { ...el, title: this.state.title, comment: this.state.comment }
             : el;
         });
@@ -127,7 +127,7 @@ export class CardEdit extends React.Component {
               value={this.state.title}
             />
             <label className={classes.label}>Comment:</label>
-            
+
             <Input
               placeholder="Comment"
               multiline
@@ -138,14 +138,28 @@ export class CardEdit extends React.Component {
               value={this.state.comment}
             />
           </CardContent>
-          <CardActions  className={classes.footer}>
-            <Button onClick={this.handleUpdateComment} className={classes.button}>&#10003;</Button>
-            <Button onClick={this.handleDelete} className={classes.button}>&times;</Button>
+          <CardActions className={classes.footer}>
+            <Button
+              onClick={this.handleUpdateComment}
+              className={classes.button}
+            >
+              &#10003;
+            </Button>
+            <Button onClick={this.handleDelete} className={classes.button}>
+              &times;
+            </Button>
           </CardActions>
         </Card>
       </div>
     );
   }
 }
+
+CardEdit.protoTypes = {
+  classes: PropTypes.object.isRequired,
+  title: PropTypes.string.isRequired,
+  comment: PropTypes.string.isRequired,
+  commentId: PropTypes.string.isRequired,
+};
 
 export default withStyles(useStyles)(CardEdit);

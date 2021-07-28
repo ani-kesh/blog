@@ -6,6 +6,7 @@ import Input from "@material-ui/core/Input";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import PropTypes from "prop-types";
 
 import {
   getCurrentDateStr,
@@ -25,11 +26,11 @@ const useStyles = (theme) => ({
     width: "800px",
     margin: "30px 10px",
   },
-  button:{
+  button: {
     backgroundColor: "#546e7a",
-    color:"white",
-    padding:"10px 25px",
-  }
+    color: "white",
+    padding: "10px 25px",
+  },
 });
 
 export class AddComment extends React.Component {
@@ -48,10 +49,10 @@ export class AddComment extends React.Component {
 
   componentDidMount() {
     const userId = getItems("userId");
-    if(userId !== "null")
-    this.setState({
-      userId:userId,
-    })
+    if (userId !== "null")
+      this.setState({
+        userId: userId,
+      });
   }
 
   handleAddComment = () => {
@@ -61,7 +62,7 @@ export class AddComment extends React.Component {
         ? setItems("comments", [
             ...comments,
             {
-              id:`c_${comments.length}${Math.floor(Math.random() * 100000)}`,
+              id: `c_${comments.length}${Math.floor(Math.random() * 100000)}`,
               userId: this.state.userId,
               comment: this.state.comment,
               title: this.state.title,
@@ -71,7 +72,7 @@ export class AddComment extends React.Component {
           ])
         : setItems("comments", [
             {
-              id:`c_${comments.length}${Math.floor(Math.random() * 100000)}`,
+              id: `c_${comments.length}${Math.floor(Math.random() * 100000)}`,
               userId: this.state.userId,
               comment: this.state.comment,
               title: this.state.title,
@@ -112,7 +113,11 @@ export class AddComment extends React.Component {
               placeholder="Comment"
               className={classes.margin + " " + classes.loginInput}
             />
-            <Button variant="contained" onClick={this.handleAddComment} className={classes.button}>
+            <Button
+              variant="contained"
+              onClick={this.handleAddComment}
+              className={classes.button}
+            >
               Add
             </Button>
           </div>
@@ -121,5 +126,9 @@ export class AddComment extends React.Component {
     return <Redirect to={Routes.login().path} />;
   }
 }
+
+AddComment.protoTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 export default withStyles(useStyles)(AddComment);
