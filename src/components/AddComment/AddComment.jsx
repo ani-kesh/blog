@@ -72,7 +72,7 @@ export class AddComment extends React.Component {
           ])
         : setItems("comments", [
             {
-              id: `c_${comments.length}${Math.floor(Math.random() * 100000)}`,
+              id: `c_0${Math.floor(Math.random() * 100000)}`,
               userId: this.state.userId,
               comment: this.state.comment,
               title: this.state.title,
