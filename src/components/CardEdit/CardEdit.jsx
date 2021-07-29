@@ -9,6 +9,7 @@ import { getItems, setItems } from "../../helpers/localStorage";
 import { Redirect, Route } from "react-router-dom";
 import { Routes } from "../../constants/router";
 import PropTypes from "prop-types";
+import Box from "@material-ui/core/Box";
 
 const useStyles = {
   root: {
@@ -85,7 +86,7 @@ export class CardEdit extends React.Component {
       const comments = getItems("comments");
       if (comments !== null) {
         const updatedComments = comments.map((el) => {
-          return el.id === this.props.commentId 
+          return el.id === this.props.commentId
             ? { ...el, title: this.state.title, comment: this.state.comment }
             : el;
         });
@@ -115,10 +116,10 @@ export class CardEdit extends React.Component {
 
     const { classes } = this.props;
     return (
-      <div className={classes.commentContainer}>
+      <Box className={classes.commentContainer}>
         <Card className={classes.root} variant="outlined">
           <CardContent>
-            <label className={classes.label}>Title:</label>
+            <Box className={classes.label}>Title:</Box>
             <Input
               placeholder="Title"
               onChange={this.handleTitle}
@@ -126,7 +127,7 @@ export class CardEdit extends React.Component {
               className={classes.margin + " " + classes.loginInput}
               value={this.state.title}
             />
-            <label className={classes.label}>Comment:</label>
+            <Box className={classes.label}>Comment:</Box>
 
             <Input
               placeholder="Comment"
@@ -150,7 +151,7 @@ export class CardEdit extends React.Component {
             </Button>
           </CardActions>
         </Card>
-      </div>
+      </Box>
     );
   }
 }

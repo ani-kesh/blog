@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
+import Box from "@material-ui/core/Box";
 
 import {
   getCurrentDateStr,
@@ -96,32 +97,30 @@ export class AddComment extends React.Component {
       return <Redirect to={Routes.blog().path} />;
     if (this.state.isLogged)
       return (
-        <>
-          <div className={classes.loginContainer}>
-            <Input
-              placeholder="Title"
-              onChange={this.handleTitle}
-              inputProps={{ "aria-label": "description" }}
-              className={classes.margin + " " + classes.loginInput}
-            />
-            <TextField
-              id="standard-multiline-static"
-              label=""
-              multiline
-              rows={4}
-              onChange={this.handleComment}
-              placeholder="Comment"
-              className={classes.margin + " " + classes.loginInput}
-            />
-            <Button
-              variant="contained"
-              onClick={this.handleAddComment}
-              className={classes.button}
-            >
-              Add
-            </Button>
-          </div>
-        </>
+        <Box className={classes.loginContainer}>
+          <Input
+            placeholder="Title"
+            onChange={this.handleTitle}
+            inputProps={{ "aria-label": "description" }}
+            className={classes.margin + " " + classes.loginInput}
+          />
+          <TextField
+            id="standard-multiline-static"
+            label=""
+            multiline
+            rows={4}
+            onChange={this.handleComment}
+            placeholder="Comment"
+            className={classes.margin + " " + classes.loginInput}
+          />
+          <Button
+            variant="contained"
+            onClick={this.handleAddComment}
+            className={classes.button}
+          >
+            Add
+          </Button>
+        </Box>
       );
     return <Redirect to={Routes.login().path} />;
   }

@@ -117,7 +117,7 @@ export class Login extends React.Component {
     }
 
     return (
-      <div className={classes.loginContainer}>
+      <Box className={classes.loginContainer}>
         {this.state.isValidLogin ? (
           <></>
         ) : (
@@ -150,7 +150,7 @@ export class Login extends React.Component {
         >
           Log In
         </Button>
-      </div>
+      </Box>
     );
   }
 }

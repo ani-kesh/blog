@@ -15,7 +15,7 @@ function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
+    <Box
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -27,7 +27,7 @@ function TabPanel(props) {
           <Typography>{children}</Typography>
         </Box>
       )}
-    </div>
+    </Box>
   );
 }
 
@@ -79,7 +79,7 @@ export class Nav extends React.Component {
     const logName = this.state.isLogged ? "Log Out" : "Log In";
     return (
       <Router>
-        <div className={classes.root}>
+        <Box className={classes.root}>
           <AppBar position="static" className={classes.nav}>
             <Tabs
               value={this.state.value}
@@ -138,7 +138,7 @@ export class Nav extends React.Component {
               })}
             </Switch>
           </TabPanel>
-        </div>
+        </Box>
       </Router>
     );
   }

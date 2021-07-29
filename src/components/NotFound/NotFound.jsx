@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
 import SentimentVeryDissatisfiedIcon from "@material-ui/icons/SentimentVeryDissatisfied";
 import PropTypes from "prop-types";
 
@@ -50,10 +51,10 @@ export default function NotFound() {
   const classes = useStyles();
 
   return (
-    <div className={classes.errorContainer}>
-      <div className={classes.errorTitle}>Error</div>
+    <Box className={classes.errorContainer}>
+      <Box className={classes.errorTitle}>Error</Box>
       <SentimentVeryDissatisfiedIcon className={classes.icon} />
-    </div>
+    </Box>
   );
 }
 

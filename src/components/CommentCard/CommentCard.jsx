@@ -13,6 +13,7 @@ import { Routes } from "../../constants/router";
 import Button from "@material-ui/core/Button";
 import CardEdit from "../CardEdit/CardEdit";
 import PropTypes from "prop-types";
+import Box from "@material-ui/core/Box";
 
 const useStyles = (theme) => ({
   commentContainer: {
@@ -104,7 +105,7 @@ export class CommentCard extends React.Component {
     const [avatarName] = this.state.userName;
     if (!this.state.isEdit) {
       return (
-        <div className={classes.commentContainer}>
+        <Box className={classes.commentContainer}>
           <Card className={classes.root}>
             {type === "edit" && this.state.userId === userId ? (
               <CardHeader
@@ -149,16 +150,16 @@ export class CommentCard extends React.Component {
               </Typography>
             </CardContent>
             <CardActions disableSpacing>
-              <div className={classes.footer}>
+              <Box className={classes.footer}>
                 {type === "edit" ? (
                   ""
                 ) : (
                   <Link to={Routes.blog_page(id).path}>Learn more</Link>
                 )}
-              </div>
+              </Box>
             </CardActions>
           </Card>
-        </div>
+        </Box>
       );
     }
 
