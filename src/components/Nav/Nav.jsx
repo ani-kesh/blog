@@ -11,25 +11,7 @@ import { getItems } from "../../helpers/localStorage";
 import Login from "../Login/Login";
 import PropTypes from "prop-types";
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
 
-  return (
-    <Box
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={1} m={0}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </Box>
-  );
-}
 
 const useStyles = (theme) => ({
   root: {
@@ -43,7 +25,31 @@ const useStyles = (theme) => ({
     position: "absolute",
     right: theme.spacing(1),
   },
+  simpleTabpanelPanel:{
+    backgroundColor: "#ffffff",
+  }
 });
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <Box
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}     
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={1} m={0}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </Box>
+  );
+}
+
 
 export class Nav extends React.Component {
   constructor(props) {

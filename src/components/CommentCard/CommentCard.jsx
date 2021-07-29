@@ -5,7 +5,6 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import { red } from "@material-ui/core/colors";
 import { getItems, setItems } from "../../helpers/localStorage";
 import CardActions from "@material-ui/core/CardActions";
 import { Link, Redirect, Route } from "react-router-dom";
@@ -23,7 +22,6 @@ const useStyles = (theme) => ({
     width: "100vw",
   },
   root: {
-    marginLeft: "100px",
     marginTop: "10px",
     maxWidth: 800,
     width: 800,
@@ -43,7 +41,8 @@ const useStyles = (theme) => ({
     transform: "rotate(180deg)",
   },
   avatar: {
-    backgroundColor: red[500],
+    backgroundColor: "#546e7a",
+    border:"1px solid black"
   },
   footer: {
     width: "100%",
@@ -61,6 +60,7 @@ export class CommentCard extends React.Component {
     this.state = {
       isLogged: Boolean(getItems("isLogged")),
       userId: "",
+      loggedUserId:getItems("userId") !== null?getItems("userId"):"",
       userName: "",
       isEdit: false,
       isDeleted: false,
@@ -101,20 +101,21 @@ export class CommentCard extends React.Component {
   render() {
     if (this.state.isDeleted)
       return <Route render={() => <Redirect to={Routes.blog().path} />} />;
-    const { classes, date, title, comment, id, type, userId } = this.props;
-    const [avatarName] = this.state.userName;
+    const { classes, date, title, comment, id, type ,noLearnMore} = this.props;
+    const avatarName = this.state.userName;
     if (!this.state.isEdit) {
       return (
+        <>
         <Box className={classes.commentContainer}>
           <Card className={classes.root}>
-            {type === "edit" && this.state.userId === userId ? (
+            { (
               <CardHeader
                 avatar={
                   <Avatar aria-label="recipe" className={classes.avatar}>
                     {avatarName}
                   </Avatar>
                 }
-                action={
+                action={type !== "edit" || noLearnMore ==="noLearnMore" ?<></>:
                   <div>
                     <Button
                       onClick={this.handleEdit}
@@ -129,16 +130,7 @@ export class CommentCard extends React.Component {
                       &times;
                     </Button>
                   </div>
-                }
-                title={title}
-                subheader={date}
-              />
-            ) : (
-              <CardHeader
-                avatar={
-                  <Avatar aria-label="recipe" className={classes.avatar}>
-                    {avatarName}
-                  </Avatar>
+                  
                 }
                 title={title}
                 subheader={date}
@@ -151,7 +143,7 @@ export class CommentCard extends React.Component {
             </CardContent>
             <CardActions disableSpacing>
               <Box className={classes.footer}>
-                {type === "edit" ? (
+                {type === "edit" || noLearnMore ==="noLearnMore" ? (
                   ""
                 ) : (
                   <Link to={Routes.blog_page(id).path}>Learn more</Link>
@@ -160,6 +152,8 @@ export class CommentCard extends React.Component {
             </CardActions>
           </Card>
         </Box>
+        
+        </>
       );
     }
 
@@ -169,6 +163,7 @@ export class CommentCard extends React.Component {
         comment={comment}
         userId={this.state.userId}
         commentId={id}
+        isLearnMore={true}
       />
     );
   }
